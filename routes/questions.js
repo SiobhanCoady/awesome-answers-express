@@ -28,7 +28,7 @@ router.get('/:id', function(req, res) {
   Question
     .findById(id)
     .then(function(question) {
-      res.send(question);
+      res.render('questions/show', {question: question});
     });
 })
 
