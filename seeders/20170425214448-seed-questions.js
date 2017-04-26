@@ -11,7 +11,10 @@ const questions = Array
     return Question.create({
       title: `${faker.hacker.adjective()} ${faker.hacker.noun()}`,
       description: faker.hacker.phrase()
-    });
+    })
+    // we're using .catch to prevent our query from crashing our program when
+    // the title is not unique.
+    .catch(function(error) { console.log('Duplicate question') });
   });
 
 module.exports = {
@@ -24,12 +27,8 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('Person', null, {});
-    */
+    // queryInterface is an object that has methods to directly query our
+    // database, skipping models.
+    return queryInterface.bulkDelete('Questions', null, {});
   }
 };
